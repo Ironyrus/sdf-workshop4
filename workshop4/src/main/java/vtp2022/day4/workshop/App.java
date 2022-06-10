@@ -18,22 +18,27 @@ public class App
     public static String toClient = "";
     public static void main( String[] args ) {   
         String toClient = "";
-
+        String msg = "";
         try {
             ServerSocket server = new ServerSocket(port);
             System.out.println("listening...please run Client.java...");
             Socket soc = server.accept();
             DataInputStream dis = new DataInputStream(soc.getInputStream());
-            String msg = (String)dis.readUTF();
-            
-            while (!msg.equals("close")) {
+            DataOutputStream d = new DataOutputStream(soc.getOutputStream());
+
+            while (!msg.equals("close")) {    
+                msg = (String)dis.readUTF();
                 if (msg.equals("get cookie")){
                     Cookie c = new Cookie();
                     toClient = c.get_cookie();
-                } 
+                } else {
+                    System.out.println("Error!");
+                    toClient = "";
+                    //continue;
+                }
     
                 //other way (First was Client send to Server, now Server back to Client.)
-                DataOutputStream d = new DataOutputStream(soc.getOutputStream());
+
                 d.writeUTF("cookie-text " + toClient);
                 d.flush();
     

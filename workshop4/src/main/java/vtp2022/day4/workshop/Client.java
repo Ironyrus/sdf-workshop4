@@ -23,7 +23,7 @@ public class Client {
                 d.flush();
     
                 //other way (First was Client send to Server, now Server back to Client.)
-                 dis = new DataInputStream(soc.getInputStream());
+                dis = new DataInputStream(soc.getInputStream());
                 String msg = (String)dis.readUTF();
                 System.out.println(msg);    
             }
