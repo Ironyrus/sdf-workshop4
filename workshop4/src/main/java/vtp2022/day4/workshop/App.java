@@ -15,38 +15,10 @@ import java.net.*;
 public class App 
 {
     public static int port = 3333;
-    String toClient = "";
-    // public static void main( String[] args )
-    // {   
-    //     String toClient = "";
+    public static String toClient = "";
+    public static void main( String[] args ) {   
+        String toClient = "";
 
-    //     try {
-    //         ServerSocket server = new ServerSocket(port);
-    //         System.out.println("listening...please run Client.java...");
-    //         Socket soc = server.accept();
-    //         DataInputStream dis = new DataInputStream(soc.getInputStream());
-    //         String msg = (String)dis.readUTF();
-            
-    //         if (msg.equals("get cookie")){
-    //             Cookie c = new Cookie();
-    //             toClient = c.get_cookie();
-    //         } 
-
-    //         //other way (First was Client send to Server, now Server back to Client.)
-    //         DataOutputStream d = new DataOutputStream(soc.getOutputStream());
-    //         d.writeUTF("cookie-text " + toClient);
-    //         d.flush();
-
-    //         System.out.println("Message from client: " + msg);
-    //         server.close();
-
-    //     } catch (Exception e) {
-    //         System.out.println(e);
-    //     }
-        
-    //     System.out.println( "Server: Working." );
-    // }
-    void runServer() {
         try {
             ServerSocket server = new ServerSocket(port);
             System.out.println("listening...please run Client.java...");
@@ -54,17 +26,20 @@ public class App
             DataInputStream dis = new DataInputStream(soc.getInputStream());
             String msg = (String)dis.readUTF();
             
-            if (msg.equals("get cookie")){
-                Cookie c = new Cookie();
-                toClient = c.get_cookie();
-            } 
-
-            //other way (First was Client send to Server, now Server back to Client.)
-            DataOutputStream d = new DataOutputStream(soc.getOutputStream());
-            d.writeUTF("cookie-text " + toClient);
-            d.flush();
-
-            System.out.println("Message from client: " + msg);
+            while (!msg.equals("close")) {
+                if (msg.equals("get cookie")){
+                    Cookie c = new Cookie();
+                    toClient = c.get_cookie();
+                } 
+    
+                //other way (First was Client send to Server, now Server back to Client.)
+                DataOutputStream d = new DataOutputStream(soc.getOutputStream());
+                d.writeUTF("cookie-text " + toClient);
+                d.flush();
+    
+                System.out.println("Message from client: " + msg);
+            }
+            
             server.close();
 
         } catch (Exception e) {
@@ -73,4 +48,36 @@ public class App
         
         System.out.println( "Server: Working." );
     }
+
+    // void runServer() {
+    //     {   
+    //         String toClient = "";
+    
+    //         try {
+    //             ServerSocket server = new ServerSocket(port);
+    //             System.out.println("listening...please run Client.java...");
+    //             Socket soc = server.accept();
+    //             DataInputStream dis = new DataInputStream(soc.getInputStream());
+    //             String msg = (String)dis.readUTF();
+                
+    //             if (msg.equals("get cookie")){
+    //                 Cookie c = new Cookie();
+    //                 toClient = c.get_cookie();
+    //             } 
+    
+    //             //other way (First was Client send to Server, now Server back to Client.)
+    //             DataOutputStream d = new DataOutputStream(soc.getOutputStream());
+    //             d.writeUTF("cookie-text " + toClient);
+    //             d.flush();
+    
+    //             System.out.println("Message from client: " + msg);
+    //             server.close();
+    
+    //         } catch (Exception e) {
+    //             System.out.println(e);
+    //         }
+            
+    //         System.out.println( "Server: Working." );
+    //     }
+    // }
 }
